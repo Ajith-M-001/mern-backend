@@ -11,13 +11,13 @@ const {
   getSecondSemAllData,
 } = require("../controllers/student_comtroller");
 
-router.post("/4thsem/add", addFourthSemStudentMarks);
-router.post("/3rdsem/add", addThirdSemStudentMarks);
-router.post("/1stsem/add", addFirstSemStudentMarks);
-router.post("/2ndsem/add", addSecondSemStudentMarks);
-router.get("/thirdsem/all", getThirdSemAllData);
-router.get("/fourthsem/all", getFourthSemAllData);
-router.get("/firstsem/all", getFirstSemAllData);
-router.get("/secondsem/all", getSecondSemAllData);
+router.post("/api/4thsem/add", addFourthSemStudentMarks);
+router.post("/api/3rdsem/add", addThirdSemStudentMarks);
+router.post("/api/1stsem/add", addFirstSemStudentMarks);
+router.post("/api/2ndsem/add", addSecondSemStudentMarks);
+router.get("/api/thirdsem/all", getThirdSemAllData);
+router.get("/api/fourthsem/all", getFourthSemAllData);
+router.get("/api/firstsem/all", getFirstSemAllData);
+router.get("/api/secondsem/all", getSecondSemAllData);
 
 module.exports = router;

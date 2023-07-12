@@ -3,6 +3,88 @@ const ThirdSem = require("../schema/thirdSemSchema");
 const FirstSem = require("../schema/FirstSemSchema");
 const secondSem = require("../schema/secondSemSchema");
 
+
+
+const getAllSemesterSGPA = async (req, res) => {
+  try {
+    const usn = req.params.usn;
+
+    // Retrieve the data from the respective semesters
+    const firstSemData = await FirstSem.findOne({ usn });
+    const secondSemData = await secondSem.findOne({ usn });
+    const thirdSemData = await ThirdSem.findOne({ usn });
+    const fourthSemData = await StudentFourthSem.findOne({ usn });
+
+    // Check if any of the semester data is missing
+    if (
+      !firstSemData ||
+      !secondSemData ||
+      !thirdSemData ||
+      !fourthSemData ||
+      !firstSemData.calculatedSGPA ||
+      !secondSemData.calculatedSGPA ||
+      !thirdSemData.calculatedSGPA ||
+      !fourthSemData.calculatedSGPA ||
+      !firstSemData.total ||
+      !secondSemData.total ||
+      !thirdSemData.total ||
+      !fourthSemData.total
+    ) {
+      return res.status(400).json({
+        error:
+          'To calculate CGPA, you need to enter marks for "all 4 semesters." Please enter your marks first.',
+      });
+    }
+
+    // ... rest of the code ...
+
+    // Extract the total and calculatedSGPA values for each semester
+    const firstSemTotal = firstSemData.total;
+    const firstSemSGPA = firstSemData.calculatedSGPA;
+    const secondSemTotal = secondSemData.total;
+    const secondSemSGPA = secondSemData.calculatedSGPA;
+    const thirdSemTotal = thirdSemData.total;
+    const thirdSemSGPA = thirdSemData.calculatedSGPA;
+    const fourthSemTotal = fourthSemData.total;
+    const fourthSemSGPA = fourthSemData.calculatedSGPA;
+
+    // Calculate the average SGPA
+    const averageSGPA =
+      (parseFloat(firstSemSGPA) +
+        parseFloat(secondSemSGPA) +
+        parseFloat(thirdSemSGPA) +
+        parseFloat(fourthSemSGPA)) /
+      4;
+
+    // Calculate the total marks
+    const totalMarks =
+      firstSemTotal + secondSemTotal + thirdSemTotal + fourthSemTotal;
+    // Calculate the percentage
+    const percentage = (totalMarks / 2900) * 100;
+
+    // Retrieve the name and gender from any of the semester data
+    const name = firstSemData.name;
+    const gender = firstSemData.gender;
+
+    // Prepare the response object
+    const response = {
+      usn,
+      name,
+      gender,
+      totalMarks,
+      percentage: percentage.toFixed(2),
+      averageSGPA: averageSGPA.toFixed(2),
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+
 const addFirstSemStudentMarks = async (req, res) => {
   try {
     // Create a new student instance using the student details
@@ -113,20 +195,9 @@ const addFourthSemStudentMarks = async (req, res) => {
 
 const getThirdSemAllData = async (req, res) => {
   try {
-    // Retrieve all data from the database
-    // const firstSemData = await FirstSem.find();
-    // const secondSemData = await secondSem.find();
     const thirdSemData = await ThirdSem.find();
-    // const fourthSemData = await StudentFourthSem.find();
 
-    // Combine all data into a single array or object as needed
-    // Combine all data into a single array
-    const allData = [
-      // ...firstSemData,
-      // ...secondSemData,
-      ...thirdSemData,
-      // ...fourthSemData,
-    ];
+    const allData = [...thirdSemData];
 
     res.status(200).json(allData);
   } catch (error) {
@@ -137,19 +208,8 @@ const getThirdSemAllData = async (req, res) => {
 const getFirstSemAllData = async (req, res) => {
   try {
     // Retrieve all data from the database
-    const firstSemData = await FirstSem.find();
-    // const secondSemData = await secondSem.find();
-    // const thirdSemData = await ThirdSem.find();
-    // const fourthSemData = await StudentFourthSem.find();
 
-    // Combine all data into a single array or object as needed
-    // Combine all data into a single array
-    const allData = [
-      ...firstSemData,
-      // ...secondSemData,
-      // ...thirdSemData,
-      // ...fourthSemData,
-    ];
+    const allData = [...firstSemData];
 
     res.status(200).json(allData);
   } catch (error) {
@@ -160,19 +220,10 @@ const getFirstSemAllData = async (req, res) => {
 const getFourthSemAllData = async (req, res) => {
   try {
     // Retrieve all data from the database
-    // const firstSemData = await FirstSem.find();
-    // const secondSemData = await secondSem.find();
-    // const thirdSemData = await ThirdSem.find();
+
     const fourthSemData = await StudentFourthSem.find();
 
-    // Combine all data into a single array or object as needed
-    // Combine all data into a single array
-    const allData = [
-      // ...firstSemData,
-      // ...secondSemData,
-      // ...thirdSemData,
-      ...fourthSemData,
-    ];
+    const allData = [...fourthSemData];
 
     res.status(200).json(allData);
   } catch (error) {
@@ -183,19 +234,10 @@ const getFourthSemAllData = async (req, res) => {
 const getSecondSemAllData = async (req, res) => {
   try {
     // Retrieve all data from the database
-    // const firstSemData = await FirstSem.find();
-    const secondSemData = await secondSem.find();
-    // const thirdSemData = await ThirdSem.find();
-    // const fourthSemData = await StudentFourthSem.find();
 
-    // Combine all data into a single array or object as needed
-    // Combine all data into a single array
-    const allData = [
-      // ...firstSemData,
-      ...secondSemData,
-      // ...thirdSemData,
-      // ...fourthSemData,
-    ];
+    const secondSemData = await secondSem.find();
+
+    const allData = [...secondSemData];
 
     res.status(200).json(allData);
   } catch (error) {
@@ -212,5 +254,6 @@ module.exports = {
   getThirdSemAllData,
   getFourthSemAllData,
   getFirstSemAllData,
-  getSecondSemAllData
+  getSecondSemAllData,
+  getAllSemesterSGPA,
 };

@@ -1,21 +1,22 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "SGPA Calculator by Ajith,I'm Ajith M, a student at BIT Bangalore, pursuing my MCA. This SGPA Calculator is my final year project for 2023. It is designed to calculate VTU results, percentage, and SGPA. Whether you're a student at Visvesvaraya Technological University (VTU) or someone interested in calculating SGPA, this tool will provide you with accurate results. Simplify your grade calculations with the SGPA Calculator by Ajith. Thank you for using it!",
   "main": "App.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node App.js"
+    "start": "nodemon App.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ajith",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "mongoose": "^7.3.1"
+    "mongoose": "^7.3.1",
+    "sitemap": "^7.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

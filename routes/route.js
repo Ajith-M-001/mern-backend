@@ -9,6 +9,7 @@ const {
   getFourthSemAllData,
   getFirstSemAllData,
   getSecondSemAllData,
+  getAllSemesterSGPA,
 } = require("../controllers/student_comtroller");
 
 router.post("/4thsem/add", addFourthSemStudentMarks);
@@ -19,5 +20,6 @@ router.get("/thirdsem/all", getThirdSemAllData);
 router.get("/fourthsem/all", getFourthSemAllData);
 router.get("/firstsem/all", getFirstSemAllData);
 router.get("/secondsem/all", getSecondSemAllData);
+router.get("/cgpa/:usn", getAllSemesterSGPA);
 
 module.exports = router;

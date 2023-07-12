@@ -4,10 +4,12 @@ const connectToMongoDB = require("./database/connectdb");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const router = require("./routes/route");
+const sitemapRoutes = require("./sitemap");
 const app = express();
 
 const PORT = process.env.PORT || 4000;
 
+app.use("/", sitemapRoutes);
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
